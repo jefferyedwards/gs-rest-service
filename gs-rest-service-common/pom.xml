@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>gs-rest-service</artifactId>
 		<groupId>net.edwardsonthe</groupId>
-		<version>1.0.1</version>
+		<version>1.1.0</version>
 	</parent>
 
 	<artifactId>gs-rest-service-common</artifactId>
@@ -43,12 +43,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

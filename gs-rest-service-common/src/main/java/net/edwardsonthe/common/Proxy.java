@@ -16,9 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Proxy {
 
-   static final ObjectMapper objectMapper = new ObjectMapper();
+   static final ObjectMapper MAPPER = new ObjectMapper();
 
    static final String GREETING_BASE_URL = "http://localhost:8080/greeting";
+
+   static final String LOCALTIME_BASE_URL = "http://localhost:8080/localtime";
 
    public Greeting greeting(String name) throws IOException {
 
@@ -49,7 +51,7 @@ public class Proxy {
                // return it as a String
                String result = EntityUtils.toString(entity);
                log.info("result: {}", result);
-               greeting = objectMapper.readValue(result, Greeting.class);
+               greeting = MAPPER.readValue(result, Greeting.class);
             }
 
          } finally {
@@ -62,6 +64,47 @@ public class Proxy {
 
       log.info("returning: {}", greeting);
       return greeting;
+
+   }
+
+   public LocalTime localTime() throws IOException {
+
+      LocalTime localTime = null;
+
+      String url = LOCALTIME_BASE_URL;
+      log.info("proxy call to url {}", url);
+
+      CloseableHttpClient httpClient = HttpClients.createDefault();
+
+      try {
+
+         HttpGet request = new HttpGet(url);
+         CloseableHttpResponse response = httpClient.execute(request);
+
+         try {
+
+            log.info("" + response.getProtocolVersion()); // HTTP/1.1
+            log.info("" + response.getStatusLine().getStatusCode()); // 200
+            log.info("" + response.getStatusLine().getReasonPhrase()); // OK
+            log.info("" + response.getStatusLine().toString()); // HTTP/1.1 200 OK
+
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+               String result = EntityUtils.toString(entity);
+               log.info("result: {}", result);
+               localTime = MAPPER.readValue(result, LocalTime.class);
+            }
+
+         } finally {
+            response.close();
+         }
+
+      } finally {
+         httpClient.close();
+      }
+
+      log.info("returning: {}", localTime);
+      return localTime;
 
    }
 

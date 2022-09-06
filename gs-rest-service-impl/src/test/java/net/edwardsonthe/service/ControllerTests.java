@@ -35,4 +35,11 @@ public class ControllerTests {
          .andExpect(jsonPath("$.content").value("Hello, World!"));
    }
 
+   @Test
+   public void testLocalTime() throws Exception {
+      this.mockMvc.perform(get("/localTime"))
+         .andDo(print())
+         .andExpect(status().isOk());
+   }
+
 }
