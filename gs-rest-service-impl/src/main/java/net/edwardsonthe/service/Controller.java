@@ -17,7 +17,7 @@ public class Controller {
    private final AtomicLong counter = new AtomicLong();
 
    @GetMapping("/greeting")
-   public Greeting greeting(@RequestParam(value = "name") String name) {
+   public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
       if (null == name) throw new RuntimeException("name cannot be null!");
       log.info("name: {}", name);
       return new Greeting(counter.incrementAndGet(), String.format(template, name));
